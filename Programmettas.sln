@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SilicanDate", "SilicanDate", "{234E256C-1383-44D3-A60E-E6411F0C367B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6119C1C7-A9E1-457D-B1D5-DE11185AD2F3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SilicanDate", "SilicanDate\src\SilicanDate\SilicanDate.fsproj", "{F524D765-DF1C-4EF5-B001-AEC926A9D845}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{83CBAAB1-15B8-46B4-865A-51A44F3B6B90}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SilicanDate.Tests", "SilicanDate\test\SilicanDate.Tests\SilicanDate.Tests.fsproj", "{2A44E629-E3F1-46BC-B28E-C55A9E52FA09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F524D765-DF1C-4EF5-B001-AEC926A9D845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F524D765-DF1C-4EF5-B001-AEC926A9D845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F524D765-DF1C-4EF5-B001-AEC926A9D845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F524D765-DF1C-4EF5-B001-AEC926A9D845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A44E629-E3F1-46BC-B28E-C55A9E52FA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A44E629-E3F1-46BC-B28E-C55A9E52FA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A44E629-E3F1-46BC-B28E-C55A9E52FA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A44E629-E3F1-46BC-B28E-C55A9E52FA09}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6119C1C7-A9E1-457D-B1D5-DE11185AD2F3} = {234E256C-1383-44D3-A60E-E6411F0C367B}
+		{F524D765-DF1C-4EF5-B001-AEC926A9D845} = {6119C1C7-A9E1-457D-B1D5-DE11185AD2F3}
+		{83CBAAB1-15B8-46B4-865A-51A44F3B6B90} = {234E256C-1383-44D3-A60E-E6411F0C367B}
+		{2A44E629-E3F1-46BC-B28E-C55A9E52FA09} = {83CBAAB1-15B8-46B4-865A-51A44F3B6B90}
+	EndGlobalSection
+EndGlobal
