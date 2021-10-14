@@ -10,6 +10,9 @@ open System
 [<assembly: LambdaSerializer(typeof<Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer>)>]
 ()
 
+type Input() =
+   member val date = "" with get, set
+
 
 type Function() =
    static let syncPoint = DateTime(2018, 1, 1)
@@ -27,7 +30,7 @@ type Function() =
         "Penari"
         "Sevari"
         "Venari" ]
-   
+
    static let weeks =
       [ "Ateluna"
         "Beviruto"
@@ -43,7 +46,7 @@ type Function() =
         "Verato"
         "Wilaluna"
         "Zeroto" ]
-      
+
    static let daysOfWeek =
       [ "Boromika"
         "Ferimanika"
@@ -58,8 +61,8 @@ type Function() =
    /// </summary>
    /// <param name="input">A date in the format YYYY-MM-DD</param>
    /// <returns>A string representation of the converted Silican date</returns>
-   member _.FunctionHandler(input: string) =
-      let parsedDate = DateTime.Parse(input)
+   member _.FunctionHandler(input: Input) =
+      let parsedDate = DateTime.Parse(input.date)
       let difference = (parsedDate - syncPoint).Days
       let dayNumber = syncPointDayNumber + difference
 
@@ -86,12 +89,18 @@ type Function() =
          else
             remainingDays
 
-      let season = if dayOfYear >= 364 then 4 else dayOfYear / 91 + 1
+      let season =
+         if dayOfYear >= 364 then
+            4
+         else
+            dayOfYear / 91 + 1
+
       let dayInSeason =
          if dayOfYear >= 364 then
             91 + dayOfYear % 91
          else
             dayOfYear % 91
+
       let week = dayInSeason / 7 + 1
       let dayOfWeek = dayOfYear % 7 + 1
       $"%d{year + 1} %s{seasons.[Math.Min(4, season) - 1]} %s{weeks.[week - 1]} %s{daysOfWeek.[dayOfWeek - 1]}"
