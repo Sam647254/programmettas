@@ -14,10 +14,10 @@ module FunctionTest =
         let lambdaFunction = Function()
         let syncPoint = lambdaFunction.FunctionHandler (Input(date = "2018-01-01"))
 
-        Assert.Equal("12018 Nevari Ateluna Boromika", syncPoint)
+        Assert.Equal("12018 Nevari Ateluna Boromika", syncPoint.text)
         
         let test2 = lambdaFunction.FunctionHandler (Input(date = "2018-01-07"))
-        Assert.Equal("12018 Nevari Ateluna Temiranika", test2)
+        Assert.Equal("12018 Nevari Ateluna Temiranika", test2.text)
 
     [<EntryPoint>]
     let main _ = 0

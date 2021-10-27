@@ -13,6 +13,13 @@ open System
 type Input() =
    member val date = "" with get, set
 
+type Output() =
+   member val text = "" with get, set
+   member val year = 0 with get, set
+   member val season = 0 with get, set
+   member val week = 0 with get, set
+   member val day = 0 with get, set
+
 
 type Function() =
    static let syncPoint = DateTime(2018, 1, 1)
@@ -103,4 +110,6 @@ type Function() =
 
       let week = dayInSeason / 7 + 1
       let dayOfWeek = dayOfYear % 7 + 1
-      $"%d{year + 1} %s{seasons.[Math.Min(4, season) - 1]} %s{weeks.[week - 1]} %s{daysOfWeek.[dayOfWeek - 1]}"
+      let text =
+         $"%d{year + 1} %s{seasons.[Math.Min(4, season) - 1]} %s{weeks.[week - 1]} %s{daysOfWeek.[dayOfWeek - 1]}"
+      Output(text = text, year = year + 1, season = Math.Min(4, season), week = week, day = dayOfWeek)
