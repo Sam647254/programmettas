@@ -10,9 +10,11 @@ namespace RomanizationConverter.Tests {
          var tests = new[] {
             ("yan", "yen"),
             ("lü", "leu"),
-            ("jyan", "jyuen"),
+            ("juan", "jyuen"),
             ("jun", "jeun"),
             ("gong", "gong"),
+            ("wang", "wang"),
+            ("zhang", "jang"),
          };
 
          foreach (var (input, expected) in tests) {

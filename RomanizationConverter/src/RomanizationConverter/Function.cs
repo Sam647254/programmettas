@@ -26,6 +26,9 @@ namespace RomanizationConverter {
       };
 
       private static readonly Dictionary<string, string> PinyinInitials = new() {
+         {"zh", "j"},
+         {"ch", "ch"},
+         {"sh", "sh"},
          {"b", "b"},
          {"p", "p"},
          {"m", "m"},
@@ -40,9 +43,6 @@ namespace RomanizationConverter {
          {"z", "z"},
          {"c", "ts"},
          {"s", "s"},
-         {"zh", "j"},
-         {"ch", "ch"},
-         {"sh", "sh"},
          {"r", "r"},
          {"g", "g"},
          {"k", "k"},
@@ -116,7 +116,8 @@ namespace RomanizationConverter {
          }
          var initial = PinyinInitials.FirstOrDefault(i => input.StartsWith(i.Key));
          if (initial.Key == null) {
-            return PinyinFinals.ContainsKey(input) ? PinyinFinals[input] : null;
+            return PinyinFinalsNormalized.ContainsValue(input) ? PinyinFinals.GetValueOrDefault(input, input) :
+               PinyinFinals.ContainsKey(input) ? PinyinFinals[input] : null;
          }
 
          var remaining = input[initial.Key.Length..];
