@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Amazon.Lambda.Core;
+using Amazon.Lambda.Serialization.SystemTextJson;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+[assembly: LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
 
 namespace RomanizationConverter {
    public class Function {
@@ -91,7 +90,11 @@ namespace RomanizationConverter {
          {"yun", "eun"},
       };
 
-      public ConversionResult FunctionHandler(string input, ILambdaContext context) {
+      private static readonly List<string> JyutpingInitials = new() {
+         "ng", "b", "p", "m", "f", "d", "t", "n", "l", "h",
+         "gw", "kw", "g", "k", "w", "z", "c", "s", "j",
+      };
+      public ConversionResult FunctionHandler(string input) {
          var pinyinResult = ParsePinyin(input);
          var jyutpingResult = ParseJyutping(input);
          return new ConversionResult {
@@ -107,19 +110,72 @@ namespace RomanizationConverter {
          var initial = PinyinInitials.FirstOrDefault(i => input.StartsWith(i.Key));
          if (initial.Key == null) {
             return PinyinFinals.ContainsKey(input) ? PinyinFinals[input] : null;
-         } else {
-            var remaining = input[initial.Key.Length..];
-            var normalized = initial.Key is "j" or "q" or "x" && remaining.StartsWith("u") ? "y" + remaining :
-               PinyinFinalsNormalized.ContainsKey(remaining) ? PinyinFinalsNormalized[remaining] :
-               PinyinFinalsNormalized.ContainsValue(remaining) ? remaining : null;
-            if (normalized != null) {
-               return initial.Value + PinyinFinals.GetValueOrDefault(normalized, normalized);
-            }
+         }
+
+         var remaining = input[initial.Key.Length..];
+         var normalized = initial.Key is "j" or "q" or "x" && remaining.StartsWith("u") ? "y" + remaining :
+            PinyinFinalsNormalized.ContainsKey(remaining) ? PinyinFinalsNormalized[remaining] :
+            PinyinFinalsNormalized.ContainsValue(remaining) ? remaining : null;
+         if (normalized != null) {
+            return initial.Value + PinyinFinals.GetValueOrDefault(normalized, normalized);
          }
          return null;
       }
 
       private static string? ParseJyutping(string input) {
+         if (input is "m" or "ng") {
+            return input + "h";
+         }
+         
+         var initial = JyutpingInitials.FirstOrDefault(input.StartsWith);
+         if (initial == null) return ParseJyutpingFinal(input);
+         var remaining = input[initial.Length..];
+         var final = ParseJyutpingFinal(remaining);
+         if (final == null) return null;
+
+         return initial switch {
+            "z" when final.StartsWith("oe") || final.StartsWith("eu") => "j" + final,
+            "c" when final.StartsWith("oe") || final.StartsWith("eu") => "ch" + final,
+            "c" => "ts" + final,
+            "j" when final.StartsWith("i") || final.StartsWith("eu") => final,
+            "w" when final.StartsWith("u") => final,
+            _ => initial + final,
+         };
+      }
+
+      private static string? ParseJyutpingFinal(string input) {
+         if (input.StartsWith("aa")) {
+            return input[1..];
+         }
+
+         if (input.StartsWith("a")) {
+            return "e" + input;
+         }
+
+         if (input.StartsWith("e")) {
+            return "a" + input;
+         }
+
+         if (input == "ung") {
+            return "ong";
+         }
+
+         if (input.StartsWith("i") || input.StartsWith("u")) {
+            return input;
+         }
+
+         if (input.StartsWith("o")) {
+            return "oa" + input[1..];
+         }
+
+         if (input.StartsWith("eo")) {
+            return "oe" + input[2..];
+         }
+
+         if (input.StartsWith("yu")) {
+            return "eu" + input[2..];
+         }
+
          return null;
       }
    }
