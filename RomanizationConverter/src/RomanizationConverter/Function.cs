@@ -7,6 +7,10 @@ using Amazon.Lambda.Serialization.SystemTextJson;
 [assembly: LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
 
 namespace RomanizationConverter {
+   public class FunctionInput {
+      public string Input { get; set; } = null!;
+   }
+
    public class Function {
       private static readonly Dictionary<string, string> PinyinSyllabicConsonants = new() {
          {"zhi", "jh"},
@@ -97,9 +101,9 @@ namespace RomanizationConverter {
          "ng", "b", "p", "m", "f", "d", "t", "n", "l", "h",
          "gw", "kw", "g", "k", "w", "z", "c", "s", "j",
       };
-      public ConversionResult FunctionHandler(string input) {
-         var pinyinResult = ParsePinyin(input);
-         var jyutpingResult = ParseJyutping(input);
+      public ConversionResult FunctionHandler(FunctionInput input) {
+         var pinyinResult = ParsePinyin(input.Input);
+         var jyutpingResult = ParseJyutping(input.Input);
          return new ConversionResult {
             FromPinyin = pinyinResult,
             FromJyutping = jyutpingResult,

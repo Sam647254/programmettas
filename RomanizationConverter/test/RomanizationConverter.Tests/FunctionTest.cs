@@ -7,12 +7,17 @@ namespace RomanizationConverter.Tests {
       public void TestPinyin() {
          // Invoke the lambda function and confirm the string was upper cased.
          var function = new Function();
-         
-         Assert.Equal("yen", function.FunctionHandler("yan").FromPinyin);
-         Assert.Equal("leu", function.FunctionHandler("lü").FromPinyin);
-         Assert.Equal("jyuen", function.FunctionHandler("juan").FromPinyin);
-         Assert.Equal("jeun", function.FunctionHandler("jun").FromPinyin);
-         Assert.Equal("gong", function.FunctionHandler("gong").FromPinyin);
+         var tests = new[] {
+            ("yan", "yen"),
+            ("lü", "leu"),
+            ("jyan", "jyuen"),
+            ("jun", "jeun"),
+            ("gong", "gong"),
+         };
+
+         foreach (var (input, expected) in tests) {
+            Assert.Equal(expected, function.FunctionHandler(new FunctionInput { Input = input }).FromPinyin);
+         }
       }
 
       [Fact]
@@ -31,7 +36,7 @@ namespace RomanizationConverter.Tests {
          };
 
          foreach (var (input, expected) in tests) {
-            Assert.Equal(expected, function.FunctionHandler(input).FromJyutping);
+            Assert.Equal(expected, function.FunctionHandler(new FunctionInput { Input = input }).FromJyutping);
          }
       }
    }
