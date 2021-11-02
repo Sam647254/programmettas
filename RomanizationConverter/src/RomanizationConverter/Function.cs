@@ -39,7 +39,10 @@ namespace RomanizationConverter {
          {"zh", "j"},
          {"ch", "ch"},
          {"sh", "sh"},
-         {"r", "r"}
+         {"r", "r"},
+         {"g", "g"},
+         {"k", "k"},
+         {"h", "h"},
       };
 
       private static readonly Dictionary<string, string> PinyinFinalsNormalized = new() {
@@ -138,6 +141,7 @@ namespace RomanizationConverter {
             "c" when final.StartsWith("oe") || final.StartsWith("eu") => "ch" + final,
             "c" => "ts" + final,
             "j" when final.StartsWith("i") || final.StartsWith("eu") => final,
+            "j" => "y" + final,
             "w" when final.StartsWith("u") => final,
             _ => initial + final,
          };
@@ -160,7 +164,7 @@ namespace RomanizationConverter {
             return "ong";
          }
 
-         if (input.StartsWith("i") || input.StartsWith("u")) {
+         if (input.StartsWith("i") || input.StartsWith("u") || input.StartsWith("oe")) {
             return input;
          }
 

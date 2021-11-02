@@ -12,6 +12,7 @@ namespace RomanizationConverter.Tests {
          Assert.Equal("leu", function.FunctionHandler("lü").FromPinyin);
          Assert.Equal("jyuen", function.FunctionHandler("juan").FromPinyin);
          Assert.Equal("jeun", function.FunctionHandler("jun").FromPinyin);
+         Assert.Equal("gong", function.FunctionHandler("gong").FromPinyin);
       }
 
       [Fact]
