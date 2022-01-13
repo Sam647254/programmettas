@@ -1,7 +1,7 @@
 # AWS Lambda Empty Function Project
 
 This starter project consists of:
-* Function.cs - class file containing a class with a single function handler method
+* Function.fs - Code file containing the function handler method
 * aws-lambda-tools-defaults.json - default argument settings for use with Visual Studio and command line deployment tools for AWS
 
 You may also have a test project depending on the options selected.
